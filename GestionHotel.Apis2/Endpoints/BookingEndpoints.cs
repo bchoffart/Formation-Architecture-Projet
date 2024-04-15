@@ -1,5 +1,4 @@
-﻿namespace GestionHotel.Apis.Endpoints.Booking;
-
+﻿using GestionHotel.Apis2.Models;
 
 public static class BookingEndpoints
 {
@@ -11,10 +10,14 @@ public static class BookingEndpoints
             .WithOpenApi()
             .WithTags("Booking");
 
-        group.MapGet("", BookingHandler.GetAvailableRooms)
+        group.MapGet("", () =>
+            {
+                var booking = new Booking("zob");
+                return booking.ClientId;
+            })
             .WithName("GetAvailableRooms");
 
-        group.MapPost("", BookingHandler.Create)
+        group.MapPost("", () => { return "hello POST"; })
             .WithName("CreateBooking");
     }
 }
