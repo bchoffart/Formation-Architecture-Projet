@@ -4,10 +4,8 @@ using GestionHotel.Apis2.Models.Enums;
 
 namespace GestionHotel.Apis2.Models;
 
-public class User
+public class User : BaseModel
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string UserId { get; set; }
     [Required]
     public string LastName { get; set; }
     [Required]

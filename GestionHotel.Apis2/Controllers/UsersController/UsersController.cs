@@ -6,7 +6,7 @@ namespace GestionHotel.Apis2.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : Controller
+public class UsersController : Controller
 {
     private UserService userService = new UserService();
     

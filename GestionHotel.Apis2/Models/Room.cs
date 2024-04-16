@@ -4,10 +4,8 @@ using GestionHotel.Apis2.Models.Enums;
 
 namespace GestionHotel.Apis2.Models;
 
-public class Room
+public class Room : BaseModel
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string RoomId { get; set; }
     [Required]
     public RoomType Type { get; set; }
     [Required]
@@ -27,5 +25,15 @@ public class Room
         this.Capacity = capacity;
         this.IsRoomClean = true;
         this.IsRoomAvailable = true;
+    }
+
+    public void CleanRoom()
+    {
+        this.IsRoomClean = true;
+    }
+    
+    public void MarkRoomForCleaning()
+    {
+        this.IsRoomClean = false;
     }
 }

@@ -9,24 +9,29 @@ namespace GestionHotel.Apis2.Controllers;
 [Route("api/[controller]")]
 public class BookingsController : ControllerBase
 {
-    private BookingCrudService bookingCrudService = new BookingCrudService();
-    
-    [HttpGet("show-available-rooms")]
-    [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]
-    public List<Booking> ShowAvailableRooms()
-    {
-        return bookingCrudService.SelectAll();
-    }
+    private readonly BookingsService _bookingsService = new BookingsService();
 
-    [HttpPost("book-room")]
-    public IActionResult BookRoom()
+    [HttpGet("book-room/{roomId}")]
+    public IActionResult BookRoom(string roomId)
     {
         return Ok("Creating a booking...");
     }
 
-    [HttpGet("cancel-booking")]
-    public IActionResult CancelBooking()
+    [HttpGet("cancel-booking/{bookingId}")]
+    public IActionResult CancelBooking(string bookingId)
     {
         return Ok("Deleting a booking...");
+    }
+    
+    [HttpPost("handle-client-arrival/{email}")]
+    public IActionResult HandleClientArrival(string email)
+    {
+        return Ok("handle-client-arrival");
+    }
+    
+    [HttpPost("handle-client-departure/{email}")]
+    public IActionResult HandleClientDeparture(string email)
+    {
+        return Ok("handle-client-departure");
     }
 }
