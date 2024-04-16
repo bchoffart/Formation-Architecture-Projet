@@ -1,9 +1,15 @@
-﻿namespace GestionHotel.Apis2.Controllers;
+﻿using System.Text.Json.Serialization;
 
-public class RegistrationInput
+namespace GestionHotel.Apis2.Controllers;
+
+public class RegistrationInput(string email, string password, string lastName, string firstName)
 {
-    public string email;
-    public string password;
-    public string lastName;
-    public string firstName;
+    [JsonInclude]
+    public readonly string Email = email;
+    [JsonInclude]
+    public readonly string Password = password;
+    [JsonInclude]
+    public readonly string LastName = lastName;
+    [JsonInclude]
+    public readonly string FirstName = firstName;
 }

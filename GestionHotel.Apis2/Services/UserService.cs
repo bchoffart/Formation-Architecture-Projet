@@ -17,18 +17,19 @@ public class UserService
     
     public bool RegisterAccount(User user)
     {
-        if (ApplyUserVerifications(user)) return false;
-        var createdUser = _db.Users.Add(user);
+        if (!ApplyUserVerifications(user)) return false;
+        _db.Users.Add(user);
         _db.SaveChanges();
-        return createdUser.State == EntityState.Added;
+        return true;
     }
 
-    public User Login(string email, string password)
+    public UserWithoutPassword Login(string email, string password)
     {
-        var foundUser = _db.Users.Where(u => u.Email == email).First();
+        var foundUser = _db.Users.First(u => u.Email == email);
         if (foundUser == null) throw new BadHttpRequestException("Cannot find User.", 422);
         if (foundUser.Password != password) throw new BadHttpRequestException("Please check your credentials.", 401);
-        return foundUser;
+        var finalUser = new UserWithoutPassword(foundUser.UserId, foundUser.Email, foundUser.LastName, foundUser.FirstName, foundUser.Role);
+        return finalUser;
     }
     
 }

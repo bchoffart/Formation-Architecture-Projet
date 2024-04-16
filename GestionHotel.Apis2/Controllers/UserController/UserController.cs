@@ -13,13 +13,13 @@ public class UserController : Controller
     [HttpPost("register")]
     public bool Register([FromBody] RegistrationInput input)
     {
-        User user = new User(input.email, input.firstName, input.lastName, input.password);
+        var user = new User(input.LastName, input.FirstName, input.Email, input.Password);
         return userService.RegisterAccount(user);
     }
     
     [HttpPost("login")]
-    public User Login([FromBody] LoginInput input)
+    public UserWithoutPassword Login([FromBody] LoginInput input)
     {
-        return userService.Login(input.email, input.password);
+        return userService.Login(input.Email, input.Password);
     }
 }
