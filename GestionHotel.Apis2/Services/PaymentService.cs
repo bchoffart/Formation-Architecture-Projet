@@ -30,14 +30,12 @@ public class PaymentService
         }
     }
 
-    public void HandlePaypalPayment(Payment payment)
+    private void HandlePaypalPayment(Payment payment)
     {
         var actualPaymentPaypal = _paypalGateway.ProcessPaymentAsync(payment.CreditCard, payment.ExpiryDate, payment.Amount);
-        actualPaymentPaypal.Start();
-        actualPaymentPaypal.Wait();
     }
-    
-    public void HandleStripePayment(Payment payment)
+
+    private void HandleStripePayment(Payment payment)
     {
         var stripePayementInfo = new StripePayementInfo
         {
@@ -46,7 +44,5 @@ public class PaymentService
             Amount = payment.Amount
         };
         var actualPayment = _stripeGateway.ProcessPaymentAsync(stripePayementInfo);
-        actualPayment.Start();
-        actualPayment.Wait();
     }
 }

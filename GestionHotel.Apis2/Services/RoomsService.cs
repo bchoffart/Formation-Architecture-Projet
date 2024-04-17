@@ -19,4 +19,12 @@ public class RoomsService : GenericCrudService<Room>
         foundRoom.MarkRoomForCleaning();
         this.Update(foundRoom);
     }
+
+    public void ChangeRoomAvailability(string roomId)
+    {
+        var foundRoom = this.SelectById(roomId);
+        if (foundRoom == null) return;
+        foundRoom.ChangeRoomAvailability();
+        this.Update(foundRoom);
+    }
 }

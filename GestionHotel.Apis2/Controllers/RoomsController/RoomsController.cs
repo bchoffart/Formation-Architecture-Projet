@@ -11,6 +11,19 @@ public class RoomsController : ControllerBase
 {
     private readonly RoomsService _roomsService = new RoomsService();
     
+    // DEBUG ROUTE : Create rooms. - TO BE REMOVED -
+    [CustomAuthorization(UserRole.Admin)]
+    [HttpGet("create-rooms")]
+    public void CreateRooms()
+    {
+        var room1 = new Room(RoomType.Double, 125, RoomState.Clean, 5);
+        var room2 = new Room(RoomType.Suite, 155, RoomState.BigDamage, 3);
+        var room3 = new Room(RoomType.Simple, 200, RoomState.New, 2);
+        _roomsService.Insert(room1);
+        _roomsService.Insert(room2);
+        _roomsService.Insert(room3);
+    }
+    
     [HttpGet("show-available-rooms")]
     [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]
     public List<RoomResult> ShowAvailableRooms(string token)

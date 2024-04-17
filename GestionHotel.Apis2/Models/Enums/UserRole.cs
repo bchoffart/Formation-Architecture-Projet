@@ -4,5 +4,6 @@ public enum UserRole
 {
     Client,
     Receptionist,
-    Housekeeper
+    Housekeeper,
+    Admin
 }

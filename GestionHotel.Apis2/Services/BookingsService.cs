@@ -18,16 +18,19 @@ public class BookingsService : GenericCrudService<Booking>
 
     private void BookRoom(BookingReservationInput input, Room room)
     {
-        var booking = input.PaymentMethod != PaymentMethod.Other ? 
-            new Booking(input.ClientId, input.StartDate, input.EndDate, input.PaymentMethod) 
-            : new Booking(input.ClientId, input.StartDate, input.EndDate);
-        room.ChangeRoomAvailability();
-        if (booking.PaymentMethod != PaymentMethod.Other)
-        {
-            _paymentService.HandlePayment(input.Payment, input.PaymentMethod);
-        }
-        Insert(booking);
+        var booking = new Booking(input.ClientId, input.StartDate, input.EndDate, room.Id);
+        _roomsService.ChangeRoomAvailability(room.Id);
+        var updatedBooking = UpdateBookingPaymentMethodAndApplyPayment(input, booking);
+        Insert(updatedBooking);
         SaveDatabase();
+    }
+
+    private Booking UpdateBookingPaymentMethodAndApplyPayment(BookingReservationInput input, Booking booking)
+    {
+        if (input.PaymentMethod == PaymentMethod.Other) return booking;
+        booking.PaymentMethod = input.PaymentMethod;
+        _paymentService.HandlePayment(input.Payment, input.PaymentMethod);
+        return booking;
     }
     
     public void HandleClientArrival(string email)
@@ -44,7 +47,6 @@ public class BookingsService : GenericCrudService<Booking>
     
     public void CancelBooking(string bookingId)
     {
-        // TO-DO : Update booking status => must be still open and handle 48h
         throw new NotImplementedException();
     }
 }

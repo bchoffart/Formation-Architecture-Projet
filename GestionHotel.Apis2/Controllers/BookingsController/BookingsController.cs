@@ -11,24 +11,28 @@ public class BookingsController : ControllerBase
 {
     private readonly BookingsService _bookingsService = new BookingsService();
 
-    [HttpGet("book-room/{roomId}")]
-    public IActionResult BookRoom(string roomId)
+    [HttpPost("book-room")]
+    [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]
+    public void BookRoom([FromBody] BookingReservationInput input)
     {
-        return Ok("Creating a booking...");
+        _bookingsService.AttemptBooking(input);
     }
 
+    [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]
     [HttpGet("cancel-booking/{bookingId}")]
     public IActionResult CancelBooking(string bookingId)
     {
         return Ok("Deleting a booking...");
     }
     
+    [CustomAuthorization(UserRole.Receptionist)]
     [HttpPost("handle-client-arrival/{email}")]
     public IActionResult HandleClientArrival(string email)
     {
         return Ok("handle-client-arrival");
     }
     
+    [CustomAuthorization(UserRole.Receptionist)]
     [HttpPost("handle-client-departure/{email}")]
     public IActionResult HandleClientDeparture(string email)
     {

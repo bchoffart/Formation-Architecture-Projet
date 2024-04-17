@@ -17,8 +17,13 @@ public class BookingReservationInput
     [JsonInclude]
     public PaymentMethod PaymentMethod { get; private set; }
     [JsonInclude]
-    public Payment Payment { get; set; }
+    public string Amount;
+    [JsonInclude]
+    public string CreditCard;
+    [JsonInclude]
+    public string ExpiryDate;
 
+    public readonly Payment Payment;
     public BookingReservationInput(string clientId, string roomId, DateTime startDate, DateTime endDate)
     {
         ClientId = clientId;
@@ -28,13 +33,14 @@ public class BookingReservationInput
         PaymentMethod = PaymentMethod.Other;
     }
     
-    public BookingReservationInput(string clientId, string roomId, DateTime startDate, DateTime endDate, PaymentMethod paymentMethod, string creditCard, string expiry, string amount)
+    [JsonConstructor]
+    public BookingReservationInput(string clientId, string roomId, DateTime startDate, DateTime endDate, PaymentMethod paymentMethod, string creditCard, string expiryDate, string amount)
     {
         ClientId = clientId;
         RoomId = roomId;
         StartDate = startDate;
         EndDate = endDate;
         PaymentMethod = paymentMethod;
-        Payment = new Payment(amount, creditCard, expiry);
+        Payment = new Payment(amount, creditCard, expiryDate);
     }
 }
