@@ -27,4 +27,12 @@ public class RoomsService : GenericCrudService<Room>
         foundRoom.ChangeRoomAvailability();
         this.Update(foundRoom);
     }
+    
+    public void ChangeRoomOccupation(string roomId)
+    {
+        var foundRoom = this.SelectById(roomId);
+        if (foundRoom == null) return;
+        foundRoom.ChangeRoomOccupation();
+        this.Update(foundRoom);
+    }
 }

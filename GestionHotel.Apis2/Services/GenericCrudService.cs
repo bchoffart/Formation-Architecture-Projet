@@ -2,7 +2,7 @@
 
 namespace GestionHotel.Apis2.Services;
 
-
+// TO-DO : Create partial classes for interfaces
 public abstract class GenericCrudService<T> where T : BaseModel
 {
     

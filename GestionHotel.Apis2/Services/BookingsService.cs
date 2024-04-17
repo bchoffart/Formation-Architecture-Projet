@@ -7,6 +7,7 @@ namespace GestionHotel.Apis2.Services;
 public class BookingsService : GenericCrudService<Booking>
 {
     private readonly RoomsService _roomsService = new RoomsService();
+    private readonly UserService _userService = new UserService();
     private readonly PaymentService _paymentService = new PaymentService();
     public void AttemptBooking(BookingReservationInput input)
     {
@@ -20,27 +21,34 @@ public class BookingsService : GenericCrudService<Booking>
     {
         var booking = new Booking(input.ClientId, input.StartDate, input.EndDate, room.Id);
         _roomsService.ChangeRoomAvailability(room.Id);
-        var updatedBooking = UpdateBookingPaymentMethodAndApplyPayment(input, booking);
+        var updatedBooking = UpdateBookingPaymentMethodAndApplyPayment(booking, input.Payment, input.PaymentMethod);
         Insert(updatedBooking);
         SaveDatabase();
     }
 
-    private Booking UpdateBookingPaymentMethodAndApplyPayment(BookingReservationInput input, Booking booking)
+    private Booking UpdateBookingPaymentMethodAndApplyPayment(Booking booking, Payment payment, PaymentMethod paymentMethod)
     {
-        if (input.PaymentMethod == PaymentMethod.Other) return booking;
-        booking.PaymentMethod = input.PaymentMethod;
-        _paymentService.HandlePayment(input.Payment, input.PaymentMethod);
+        if (paymentMethod == PaymentMethod.Other) return booking;
+        booking.PaymentMethod = paymentMethod;
+        _paymentService.HandlePayment(payment, paymentMethod);
         return booking;
     }
     
-    public void HandleClientArrival(string email)
+    public void HandleClientArrival(string email, Payment? payment, PaymentMethod paymentMethod = PaymentMethod.Other)
     {
-        // TO-DO : Update booking status + update (eventually) payment status
+        var foundUser = _userService.Select(u => u.Email == email)[0]!;
+        var foundBooking = Select(b => b.UserId == foundUser.Id)[0];
+        if (payment != null)
+        {
+            foundBooking = UpdateBookingPaymentMethodAndApplyPayment(foundBooking, payment, paymentMethod);
+        }
+        _roomsService.ChangeRoomOccupation(foundBooking.RoomId);
         throw new NotImplementedException();
     }
 
-    public void HandleClientDeparture()
+    public void HandleClientDeparture(string email)
     {
+        
         // TO-DO : Update booking status + payment status + mark booking room for cleanup
         throw new NotImplementedException();
     }

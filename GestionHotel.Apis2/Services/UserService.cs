@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestionHotel.Apis2.Services;
 
-public class UserService
+public class UserService : GenericCrudService<User>
 {
     private DatabaseContext _db = new DatabaseContext();
 
@@ -12,7 +12,9 @@ public class UserService
     {
         if (user.Password.Length < 10) return false;
         var addr = new System.Net.Mail.MailAddress(user.Email);
-        return user.Email == addr.Address;
+        if (user.Email == addr.Address) return false;
+        var foundUserCount = Select(u => u.Email == user.Email).Count;
+        return foundUserCount == 0;
     }
     
     public bool RegisterAccount(User user)

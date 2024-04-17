@@ -17,25 +17,27 @@ public class BookingsController : ControllerBase
     {
         _bookingsService.AttemptBooking(input);
     }
-
-    [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]
-    [HttpGet("cancel-booking/{bookingId}")]
-    public IActionResult CancelBooking(string bookingId)
-    {
-        return Ok("Deleting a booking...");
-    }
     
     [CustomAuthorization(UserRole.Receptionist)]
     [HttpPost("handle-client-arrival/{email}")]
-    public IActionResult HandleClientArrival(string email)
+    public void HandleClientArrival(string email)
     {
-        return Ok("handle-client-arrival");
+        _bookingsService.HandleClientArrival(email);
     }
     
     [CustomAuthorization(UserRole.Receptionist)]
     [HttpPost("handle-client-departure/{email}")]
-    public IActionResult HandleClientDeparture(string email)
+    public void HandleClientDeparture(string email)
     {
-        return Ok("handle-client-departure");
+        _bookingsService.HandleClientDeparture(email);
     }
+
+    [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]
+    [HttpGet("cancel-booking/{bookingId}")]
+    public void CancelBooking(string bookingId)
+    {
+        _bookingsService.CancelBooking(bookingId);
+    }
+    
+
 }
