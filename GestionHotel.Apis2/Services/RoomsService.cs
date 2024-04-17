@@ -6,17 +6,17 @@ public class RoomsService : GenericCrudService<Room>
 {
     public void CleanRoom(string roomId)
     {
-        var foundRoom = this.Select(r => r.Id == roomId);
-        if (foundRoom.Count != 1) return;
-        foundRoom[0].CleanRoom();
-        this.Update(foundRoom[0]);
+        var foundRoom = this.SelectById(roomId);
+        if (foundRoom == null) return;
+        foundRoom.CleanRoom();
+        this.Update(foundRoom);
     }
 
     public void MarkRoomForCleaning(string roomId)
     {
-        var foundRoom = this.Select(r => r.Id == roomId);
-        if (foundRoom.Count != 1) return;
-        foundRoom[0].MarkRoomForCleaning();
-        this.Update(foundRoom[0]);
+        var foundRoom = this.SelectById(roomId);
+        if (foundRoom == null) return;
+        foundRoom.MarkRoomForCleaning();
+        this.Update(foundRoom);
     }
 }

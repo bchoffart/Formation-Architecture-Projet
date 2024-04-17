@@ -16,6 +16,7 @@ public class Room : BaseModel
     public int Capacity { get; set; }
     public bool IsRoomClean { get; private set; }
     public bool IsRoomAvailable { get; private set; }
+    public bool IsRoomCurrentlyOccupied { get; private set; }
 
     public Room(RoomType type, double price, RoomState state, int capacity)
     {
@@ -25,6 +26,7 @@ public class Room : BaseModel
         this.Capacity = capacity;
         this.IsRoomClean = true;
         this.IsRoomAvailable = true;
+        this.IsRoomCurrentlyOccupied = false;
     }
 
     public void CleanRoom()
@@ -35,5 +37,15 @@ public class Room : BaseModel
     public void MarkRoomForCleaning()
     {
         this.IsRoomClean = false;
+    }
+
+    public void ChangeRoomAvailability()
+    {
+        this.IsRoomAvailable = !this.IsRoomAvailable;
+    }
+    
+    public void ChangeRoomOccupation()
+    {
+        this.IsRoomCurrentlyOccupied = !this.IsRoomCurrentlyOccupied;
     }
 }

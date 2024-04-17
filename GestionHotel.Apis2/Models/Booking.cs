@@ -18,17 +18,21 @@ public class Booking : BaseModel
     
     public List<Room> Rooms { get; } = new List<Room>();
 
-    public Booking(string userId)
+    public Booking(string userId, DateTime startDate, DateTime endDate)
     {
         UserId = userId;
+        StartDate = startDate;
+        EndDate = endDate;
         PaymentMethod = PaymentMethod.Other;
         PaymentStatus = PaymentStatus.AwaitingPaymentMethodChoice;
         BookingStatus = BookingStatus.Created;
     }
     
-    public Booking(string userId, PaymentMethod paymentMethod)
+    public Booking(string userId, DateTime startDate, DateTime endDate, PaymentMethod paymentMethod)
     {
         UserId = userId;
+        StartDate = startDate;
+        EndDate = endDate;
         PaymentMethod = paymentMethod;
         BookingStatus = BookingStatus.Created;
         if (paymentMethod != PaymentMethod.Other)

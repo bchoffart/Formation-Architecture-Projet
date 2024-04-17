@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using GestionHotel.Apis2.Models;
 using GestionHotel.Apis2.Models.Enums;
 
 namespace GestionHotel.Apis2.Controllers;
@@ -13,7 +14,10 @@ public class BookingReservationInput
     public DateTime StartDate;
     [JsonInclude]
     public DateTime EndDate;
-    [JsonInclude] public PaymentMethod? PaymentMethod;
+    [JsonInclude]
+    public PaymentMethod PaymentMethod { get; private set; }
+    [JsonInclude]
+    public Payment Payment { get; set; }
 
     public BookingReservationInput(string clientId, string roomId, DateTime startDate, DateTime endDate)
     {
@@ -21,15 +25,16 @@ public class BookingReservationInput
         RoomId = roomId;
         StartDate = startDate;
         EndDate = endDate;
-        PaymentMethod = Models.Enums.PaymentMethod.Other;
+        PaymentMethod = PaymentMethod.Other;
     }
     
-    public BookingReservationInput(string clientId, string roomId, DateTime startDate, DateTime endDate, PaymentMethod paymentMethod)
+    public BookingReservationInput(string clientId, string roomId, DateTime startDate, DateTime endDate, PaymentMethod paymentMethod, string creditCard, string expiry, string amount)
     {
         ClientId = clientId;
         RoomId = roomId;
         StartDate = startDate;
         EndDate = endDate;
         PaymentMethod = paymentMethod;
+        Payment = new Payment(amount, creditCard, expiry);
     }
 }

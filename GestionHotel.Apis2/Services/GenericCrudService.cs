@@ -48,4 +48,9 @@ public abstract class GenericCrudService<T> where T : BaseModel
         _db.Remove(data);
         _db.SaveChanges();
     }
+
+    public void SaveDatabase()
+    {
+        _db.SaveChanges();
+    }
 }
