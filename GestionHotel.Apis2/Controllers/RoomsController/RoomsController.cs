@@ -18,9 +18,9 @@ public class RoomsController : ControllerBase
         var foundRooms = _roomsService.Select(r => r.IsRoomAvailable);
         return token switch
         {
-            "Client" => foundRooms.Select(r => new RoomResult(r.Type, r.Price, r.Capacity)).ToList(),
+            "Client" => foundRooms.Select(r => new RoomResult(r.Id, r.Type, r.Price, r.Capacity)).ToList(),
             "Receptionist" => foundRooms.Select(r => new RoomResult(
-                    r.Type, r.Price, r.State, r.Capacity, r.IsRoomAvailable, r.IsRoomClean))
+                    r.Id, r.Type, r.Price, r.State, r.Capacity, r.IsRoomAvailable, r.IsRoomClean))
                 .ToList(),
             _ => throw new BadHttpRequestException("No rooms found", 404)
         };
@@ -28,7 +28,7 @@ public class RoomsController : ControllerBase
 
     [CustomAuthorization(UserRole.Housekeeper)]
     [HttpGet("show-unclean-rooms")]
-    public List<Room> ShowUncleanRooms()
+    public List<Room?> ShowUncleanRooms()
     {
         return _roomsService.Select(r => !r.IsRoomClean);
     }

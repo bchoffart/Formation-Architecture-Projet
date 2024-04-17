@@ -7,18 +7,20 @@ public abstract class GenericCrudService<T> where T : BaseModel
 {
     
     private readonly DatabaseContext _db = new DatabaseContext();
-
-    private readonly string _entityName = typeof(T).Name;
     
-    public List<T> SelectAll()
+    public List<T?> SelectAll()
     {
-        Console.WriteLine(_entityName);
         return _db.Set<T>().ToList();
     }
     
-    public List<T> Select(Predicate<T> predicate)
+    public List<T?> Select(Predicate<T?> predicate)
     {
         return this.SelectAll().FindAll(predicate);
+    }
+    
+    public T? SelectById(string id)
+    {
+        return this.SelectAll().Find(r => r.Id == id);
     }
     
     public void Insert(T data)

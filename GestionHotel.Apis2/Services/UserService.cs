@@ -26,7 +26,7 @@ public class UserService
     public UserWithoutPassword Login(string email, string password)
     {
         var foundUser = _db.Users.First(u => u.Email == email);
-        if (foundUser == null) throw new BadHttpRequestException("Cannot find User.", 422);
+        if (foundUser == null) throw new BadHttpRequestException("Cannot find User.", 404);
         if (foundUser.Password != password) throw new BadHttpRequestException("Please check your credentials.", 401);
         var finalUser = new UserWithoutPassword(foundUser.Id, foundUser.Email, foundUser.LastName, foundUser.FirstName, foundUser.Role);
         return finalUser;

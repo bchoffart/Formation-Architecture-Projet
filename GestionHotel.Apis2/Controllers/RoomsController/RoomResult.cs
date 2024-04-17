@@ -12,15 +12,17 @@ public class RoomResult: BaseModel
     public bool IsRoomClean { get; private set; }
     public bool IsRoomAvailable { get; private set; }
 
-    public RoomResult(RoomType type, double price, int capacity)
+    public RoomResult(string id, RoomType type, double price, int capacity)
     {
+        Id = id;
         Type = type;
         Price = price;
         Capacity = capacity;
     }
 
-    public RoomResult(RoomType type, double price, RoomState state, int capacity, bool isRoomClean, bool isRoomAvailable)
+    public RoomResult(string id, RoomType type, double price, RoomState state, int capacity, bool isRoomClean, bool isRoomAvailable)
     {
+        Id = id;
         Type = type;
         Price = price;
         State = state;
