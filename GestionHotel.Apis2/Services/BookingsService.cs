@@ -9,6 +9,7 @@ public class BookingsService : GenericCrudService<Booking>
     private readonly RoomsService _roomsService = new RoomsService();
     private readonly UserService _userService = new UserService();
     private readonly PaymentService _paymentService = new PaymentService();
+    private readonly MailerService _mailerService = new MailerService();
     public void AttemptBooking(BookingReservationInput input)
     {
         var room = _roomsService.SelectById(input.RoomId);
@@ -55,6 +56,9 @@ public class BookingsService : GenericCrudService<Booking>
         _roomsService.MarkRoomForCleaning(booking.RoomId);
         _roomsService.ChangeRoomAvailability(booking.RoomId, true);
         _roomsService.ChangeRoomOccupation(booking.RoomId, false);
+        var user = _userService.SelectById(booking.UserId);
+        if (user == null) return;
+        _mailerService.SendEmail(user.Email, "Thank you for your stay.");
     }
     
     public void CancelBooking(string bookingId)
