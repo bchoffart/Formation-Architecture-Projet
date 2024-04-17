@@ -38,12 +38,12 @@ public class BookingsService : GenericCrudService<Booking>
     {
         var foundUser = _userService.Select(u => u.Email == email)[0]!;
         var foundBooking = Select(b => b.UserId == foundUser.Id)[0];
+        if (foundBooking == null) return;
         if (payment != null)
         {
             foundBooking = UpdateBookingPaymentMethodAndApplyPayment(foundBooking, payment, paymentMethod);
         }
         _roomsService.ChangeRoomOccupation(foundBooking.RoomId);
-        throw new NotImplementedException();
     }
 
     public void HandleClientDeparture(string email)

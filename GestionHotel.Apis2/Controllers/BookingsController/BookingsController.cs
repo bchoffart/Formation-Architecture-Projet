@@ -22,7 +22,7 @@ public class BookingsController : ControllerBase
     [HttpPost("handle-client-arrival/{email}")]
     public void HandleClientArrival(string email)
     {
-        _bookingsService.HandleClientArrival(email);
+        // _bookingsService.HandleClientArrival(email);
     }
     
     [CustomAuthorization(UserRole.Receptionist)]
