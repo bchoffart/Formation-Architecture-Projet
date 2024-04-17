@@ -13,7 +13,6 @@ public class Booking : BaseModel
     [Required]
     public DateTime EndDate { get; set; }
     public PaymentStatus PaymentStatus { get; private set; }
-    public PaymentMethod PaymentMethod { get; set; }
     public BookingStatus BookingStatus { get; set;  }
     
     public string RoomId { get; set; }
@@ -24,22 +23,12 @@ public class Booking : BaseModel
         StartDate = startDate;
         EndDate = endDate;
         RoomId = roomId;
-        PaymentMethod = PaymentMethod.Other;
         PaymentStatus = PaymentStatus.AwaitingPaymentMethodChoice;
         BookingStatus = BookingStatus.Created;
     }
-    
-    public Booking(string userId, DateTime startDate, DateTime endDate, PaymentMethod paymentMethod, string roomId)
+
+    public void PayBooking()
     {
-        UserId = userId;
-        StartDate = startDate;
-        EndDate = endDate;
-        PaymentMethod = paymentMethod;
-        RoomId = roomId;
-        BookingStatus = BookingStatus.Created;
-        if (paymentMethod != PaymentMethod.Other)
-        {
-            PaymentStatus = PaymentStatus.Paid;
-        }
+        PaymentStatus = PaymentStatus.Paid;
     }
 }

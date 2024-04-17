@@ -41,6 +41,6 @@ public class BookingReservationInput
         StartDate = startDate;
         EndDate = endDate;
         PaymentMethod = paymentMethod;
-        Payment = new Payment(amount, creditCard, expiryDate);
+        Payment = new Payment(amount, creditCard, expiryDate, paymentMethod);
     }
 }

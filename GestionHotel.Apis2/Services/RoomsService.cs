@@ -20,19 +20,19 @@ public class RoomsService : GenericCrudService<Room>
         this.Update(foundRoom);
     }
 
-    public void ChangeRoomAvailability(string roomId)
+    public void ChangeRoomAvailability(string roomId, bool available)
     {
         var foundRoom = this.SelectById(roomId);
         if (foundRoom == null) return;
-        foundRoom.ChangeRoomAvailability();
+        foundRoom.ChangeRoomAvailability(available);
         this.Update(foundRoom);
     }
     
-    public void ChangeRoomOccupation(string roomId)
+    public void ChangeRoomOccupation(string roomId, bool occupied)
     {
         var foundRoom = this.SelectById(roomId);
         if (foundRoom == null) return;
-        foundRoom.ChangeRoomOccupation();
+        foundRoom.ChangeRoomOccupation(occupied);
         this.Update(foundRoom);
     }
 }

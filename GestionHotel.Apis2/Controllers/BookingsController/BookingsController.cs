@@ -19,17 +19,17 @@ public class BookingsController : ControllerBase
     }
     
     [CustomAuthorization(UserRole.Receptionist)]
-    [HttpPost("handle-client-arrival/{email}")]
-    public void HandleClientArrival(string email)
+    [HttpPost("handle-client-arrival")]
+    public void HandleClientArrival([FromBody] ClientInput input)
     {
-        // _bookingsService.HandleClientArrival(email);
+        _bookingsService.HandleClientArrival(input.Email, input.Payment ?? null);
     }
     
     [CustomAuthorization(UserRole.Receptionist)]
-    [HttpPost("handle-client-departure/{email}")]
-    public void HandleClientDeparture(string email)
+    [HttpPost("handle-client-departure")]
+    public void HandleClientDeparture([FromBody] ClientInput input)
     {
-        _bookingsService.HandleClientDeparture(email);
+        _bookingsService.HandleClientDeparture(input.Email, input.Payment);
     }
 
     [CustomAuthorization(UserRole.Receptionist, UserRole.Client)]

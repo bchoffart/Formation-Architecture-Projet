@@ -10,10 +10,10 @@ public class PaymentService
     private readonly PaypalGateway _paypalGateway = new PaypalGateway();
     private readonly StripeGateway _stripeGateway = new StripeGateway();
     
-    public void HandlePayment(Payment payment, PaymentMethod paymentMethod)
+    public void HandlePayment(Payment payment)
     {
         
-        switch (paymentMethod)
+        switch (payment.PaymentMethod)
         {
             case PaymentMethod.Paypal:
                 HandlePaypalPayment(payment);
@@ -26,7 +26,7 @@ public class PaymentService
             case PaymentMethod.Other:
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(paymentMethod), paymentMethod, null);
+                throw new ArgumentOutOfRangeException(nameof(payment.PaymentMethod), payment.PaymentMethod, null);
         }
     }
 

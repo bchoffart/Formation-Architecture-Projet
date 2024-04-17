@@ -39,13 +39,13 @@ public class Room : BaseModel
         this.IsRoomClean = false;
     }
 
-    public void ChangeRoomAvailability()
+    public void ChangeRoomAvailability(bool available)
     {
-        this.IsRoomAvailable = !this.IsRoomAvailable;
+        this.IsRoomAvailable = available;
     }
     
-    public void ChangeRoomOccupation()
+    public void ChangeRoomOccupation(bool occupied)
     {
-        this.IsRoomCurrentlyOccupied = !this.IsRoomCurrentlyOccupied;
+        this.IsRoomCurrentlyOccupied = occupied;
     }
 }
